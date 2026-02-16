@@ -1,5 +1,5 @@
 {
-    "domain": "digitransit",
+    "domain": "ovapi",
     "name": "Sensor OvApi",
     "documentation": "https://github.com/jlagerweij/Home-Assisant-Sensor-OvApi",
     "dependencies": [],
