@@ -44,6 +44,8 @@ ATTR_PROVIDER = 'provider'
 ATTR_TRANSPORT_TYPE = 'transport_type'
 ATTR_LINE_NAME = 'line_name'
 ATTR_STOP_NAME = 'stop_name'
+ATTR_JOURNEY_NUMBER = 'journey_number'
+ATTR_LINE_PLANNING_NUMBER = "line_planning_number"
 ATTR_DEPARTURE = 'departure'
 ATTR_DELAY = 'delay'
 ATTR_DEPARTURES = 'departures'
@@ -106,6 +108,8 @@ class OvApiSensor(Entity):
         self._transport_type = None
         self._line_name = None
         self._stop_name = None
+        self._journey_number = None
+        self._line_planning_number = None
         self._departure = None
         self._delay = None
         self._departures = None
@@ -139,6 +143,14 @@ class OvApiSensor(Entity):
     @property
     def stop_name(self):
         return self._stop_name
+
+    @property
+    def journey_number(self):
+        return self._journey_number
+
+    @property
+    def line_planning_number(self):
+        return self._line_planning_number
 
     @property
     def departure(self):
@@ -176,6 +188,8 @@ class OvApiSensor(Entity):
                 ATTR_TRANSPORT_TYPE: self._transport_type,
                 ATTR_LINE_NAME: self._line_name,
                 ATTR_STOP_NAME: self._stop_name,
+                ATTR_JOURNEY_NUMBER: self._journey_number,
+                ATTR_LINE_PLANNING_NUMBER: self._line_planning_number,
                 ATTR_DEPARTURE: self._departure,
                 ATTR_DELAY: self._delay,
                 ATTR_DEPARTURES: self._departures,
@@ -195,6 +209,8 @@ class OvApiSensor(Entity):
                 ATTR_TRANSPORT_TYPE: self._transport_type,
                 ATTR_LINE_NAME: self._line_name,
                 ATTR_STOP_NAME: self._stop_name,
+                ATTR_JOURNEY_NUMBER: self._journey_number,
+                ATTR_LINE_PLANNING_NUMBER: self._line_planning_number,
                 ATTR_DEPARTURE: self._departure,
                 ATTR_DELAY: self._delay,
                 ATTR_UPDATE_CYCLE: str(MIN_TIME_BETWEEN_UPDATES.seconds) + ' seconds',
@@ -232,6 +248,8 @@ class OvApiSensor(Entity):
                     "line_name": stop['TransportType'].title() + ' ' + stop['LinePublicNumber'] + ' - ' +
                                  stop['DestinationName50'],
                     "stop_name": stop['TimingPointName'],
+                    "journey_number": stop['JourneyNumber'],
+                    "line_planning_number": stop['LinePlanningNumber'],
                     "TargetDepartureTime": target_departure_time.time(),
                     "TargetDepartureDateTime": target_departure_time,
                     "ExpectedArrivalTime": expected_arrival_time.time(),
@@ -259,6 +277,8 @@ class OvApiSensor(Entity):
                 self._transport_type = stops_list[self._sensor_number]["transport_type"]
                 self._line_name = stops_list[self._sensor_number]["line_name"]
                 self._stop_name = stops_list[self._sensor_number]["stop_name"]
+                self._journey_number = stops_list[self._sensor_number]["journey_number"]
+                self._line_planning_number = stops_list[self._sensor_number]["line_planning_number"]
 
                 self._departure = stops_list[self._sensor_number]["TargetDepartureTime"].strftime('%H:%M')
                 self._delay = str(stops_list[self._sensor_number]["Delay"])
