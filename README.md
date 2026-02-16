@@ -1,6 +1,6 @@
-## Sensor providing Public Transport information from [OVapi](http://www.ovapi.nl) in Home Assistant
+## Sensor providing Public Transport information from [OVapi](https://www.ovapi.nl) in Home Assistant
 
-This is a sensor for Home Assistant and it will retrieve departure information of a particular stop. The sensor returns the first upcomming departure.
+This is a sensor for Home Assistant, and it will retrieve departure information of a particular stop. The sensor returns the first upcoming departure.
 
 ![Lovelace Screenshot](./resources/img/preview.png)
 
@@ -24,16 +24,16 @@ This is a sensor for Home Assistant and it will retrieve departure information o
 **Either one of these are required for the sensor to function!**
 
 **Optional parameters:**
-- **show_future_departures:** *(int, max value is 50)* - The sensor always creates one sensor in Hass, this property can be configured with a value of 2-5. If this is configured, the component creates the configured number of sensors in HASS. These sensors contain future departments together with theire delay if applicable.
-- **line_filter** *(int, comma seperated)* - You might bump into the fact that there are multiple lines that use the same stop, with this property you can filter all passes with the line number that you want.
+- **show_future_departures:** *(int, max value is 50)* - The sensor always creates one sensor in Hass, this property can be configured with a value of 2-5. If this is configured, the component creates the configured number of sensors in HASS. These sensors contain future departments together with their delay if applicable.
+- **line_filter** *(int, comma separated)* - You might bump into the fact that there are multiple lines that use the same stop, with this property you can filter all passes with the line number that you want.
 
 
-### To find the stop_code (stopareacode) refer to the JSON response of: [v0.ovapi.nl](http://v0.ovapi.nl/stopareacode)
+### To find the stop_code (`stopareacode`) refer to the JSON response of: [v0.ovapi.nl/stopareacode](http://v0.ovapi.nl/stopareacode)
 I've used the building JSON parser from Firefox, the search input is on the top right.
 
 - Search in the response with a keyword of the stop or the line you want, eg: kastelenring
 - The result:
-```json
+```
 9505:    <-- is the stop
   TimingPointName "Kastelenring"
 ```
@@ -46,7 +46,7 @@ I've used the building JSON parser from Firefox, the search input is on the top 
 - Note the route_code and the stop_code and place these values in the sensor configuration.
 
 
-### To find the timing_point_code (TimingPointCode) refer to the JSON response of: [v0.ovapi.nl](http://v0.ovapi.nl/line)
+### To find the timing_point_code (TimingPointCode) refer to the JSON response of: [v0.ovapi.nl/line](http://v0.ovapi.nl/line)
 I've used the building JSON parser from Firefox, the search input is on the top right.
 
 - Search in the response with a keyword of the destination of the line, eg: Leyenburg
@@ -55,7 +55,7 @@ I've used the building JSON parser from Firefox, the search input is on the top 
 - Find the TimingPointCode and use this as value in the sensor configuration.
 
 ### Sensor configuration examples
-Create 1 sensor to show the next upcomming departure of a particular line
+Create 1 sensor to show the next upcoming departure of a particular line
 ```yaml
 sensor:
   - platform: ovapi
@@ -140,7 +140,7 @@ elements:
 ### Note and credits
 - [Petro](https://community.home-assistant.io/u/petro/summary) - For extensive help at coding the sensor templates.
 - [Robban](https://github.com/Kane610) - A lot of basic help with the Python code.
-- [Danito](https://github.com/danito/HA-Config/blob/master/custom_components/sensor/stib.py) - I started with his script, learned a lot of it)
+- [Danito](https://github.com/danito/HA-Config/blob/master/custom_components/sensor/stib.py) - I started with his script, learned a lot of it
 - [pippyn](https://github.com/pippyn) - Huge contributions and a lot of bugfixes, thanks mate!
 - [rolfberkenbosch](https://github.com/rolfberkenbosch/) - For a start of the timing_point_code documentation.
 - [IIIdefconIII](https://github.com/IIIdefconIII/) - Some minor contributions to add the custom updater and updating the readme.
