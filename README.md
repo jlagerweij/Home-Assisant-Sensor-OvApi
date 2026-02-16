@@ -2,10 +2,10 @@
 
 This is a sensor for Home Assistant and it will retrieve departure information of a particular stop. The sensor returns the first upcomming departure.
 
-![Lovelace Screenshot](https://github.com/jlagerwij/Home-Assisant-Sensor-OvApi/blob/master/resources/img/preview.png)
+![Lovelace Screenshot](./resources/img/preview.png)
 
 ### Install:
-- Create the following folder structure: /config/custom_components/ovapi and place these [3 files](https://github.com/jlagerweij/Home-Assisant-Sensor-OvApi/tree/master/custom_components/ovapi) there.
+- Create the following folder structure: /config/custom_components/ovapi and place these [3 files](./custom_components/ovapi) there.
 - Add the configuration to configuration.yaml, see the parameter descriptions below and refer to the examples.
 
 ### Sensor options (there are two ways to use the sensor):
@@ -144,6 +144,7 @@ elements:
 - [pippyn](https://github.com/pippyn) - Huge contributions and a lot of bugfixes, thanks mate!
 - [rolfberkenbosch](https://github.com/rolfberkenbosch/) - For a start of the timing_point_code documentation.
 - [IIIdefconIII](https://github.com/IIIdefconIII/) - Some minor contributions to add the custom updater and updating the readme.
+- [Paul-dH](https://github.com/Paul-dH/Home-Assisant-Sensor-OvApi) - For the initial development of the sensor and the documentation.
 
 ### Custom updater:
 ```yaml
