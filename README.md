@@ -82,12 +82,12 @@ I've used the building JSON parser from Firefox, the search input is on the top 
 
 ### Easy way to get a TimingPointCode is:
 
-    - Go to https://www.openstreetmap.org/
-    - Find your bus stop on the map
-    - Switch to the Transport Layer
-    - Turn on 'Map data'
-    - Click the node
-    - Look for the ref:IFOPT and see if the TimingPointCode is listed there
+  - Go to https://www.openstreetmap.org/
+  - Find your bus stop on the map
+  - Switch to the Transport Layer
+  - Turn on 'Map data'
+  - Click the node
+  - Look for the ref:IFOPT and see if the TimingPointCode is listed there
 
 ### Find the timing_point_code using OVapi 
 I've used the building JSON parser from Firefox, the search input is on the top right.
