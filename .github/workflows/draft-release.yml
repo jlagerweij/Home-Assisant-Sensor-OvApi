@@ -1,15 +1,17 @@
 name: Draft Release on PR Merge
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+    types:
+      - closed
 
 jobs:
   draft-release:
     runs-on: ubuntu-latest
-    # Skip if this push is itself a version bump commit to avoid infinite loop
-    if: "!startsWith(github.event.head_commit.message, 'Bump version to')"
+    # Only run when a PR is actually merged, not just closed
+    if: github.event.pull_request.merged == true
     permissions:
       contents: write
 
