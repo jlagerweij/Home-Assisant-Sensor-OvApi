@@ -1,31 +1,55 @@
-## Sensor providing Public Transport information from [OVapi](https://www.ovapi.nl) in Home Assistant
+# Sensor providing Public Transport information from [OVapi](https://www.ovapi.nl) in Home Assistant
 
 This is a sensor for Home Assistant, and it will retrieve departure information of a particular stop. The sensor returns the first upcoming departure.
 
 ![Lovelace Screenshot](./resources/img/preview.png)
 
-### Install:
+## Installation
+
+<details>
+
+<summary>Install using HACS</summary>
+
+- Go to HACS in Home Assistant.
+- Click on the three dots in the top right corner and click on 'Custom repositories'.
+- Add the following repository:
+  - Repository: https://github.com/jlagerweij/Home-Assisant-Sensor-OvApi
+  - Type: Integration
+- Close the popup.
+- Search for 'OVapi' in HACS and click on 'Download'.
+
+</details>
+
+<details>
+
+<summary>Manual install</summary>
+
 - Create the following folder structure: /config/custom_components/ovapi and place these [3 files](./custom_components/ovapi) there.
 - Add the configuration to configuration.yaml, see the parameter descriptions below and refer to the examples.
 
-### Sensor options (there are two ways to use the sensor):
+### Custom updater:
+```yaml
+custom_updater:
+  track:
+    - components
+  component_urls:
+    - https://raw.githubusercontent.com/jlagerweij/Home-Assisant-Sensor-OvApi/main/custom_components.json
+```
 
-**1. Using a stop_code:** *(Please refer to the instructions below)*
+</details>
+
+
+## Sensor options (there are two ways to use the sensor):
+
+<details>
+
+<summary>1. Using a stop_code</summary>
+
+**Using a stop_code:** *(Please refer to the instructions below)*
 - **platform: ovapi** *(required)* - The name of the sensor component.
 - **name: line_6** - The name of the sensor in HASS
 - **stop_code** *(int, e.g. 9505)* - A code created by the transport to identify the stop.
 - **route_code** *(int, e.g. 32009505)* - A stop always has two routes, a route forth and back. This code configures the right route that you want of a public line destination.
-
-**2. Using a Timing_Point_Code:** *(Please refer to the instructions below)*
-- **platform: ovapi** *(required)* - The name of the sensor component.
-- **name: line_6** - The name of the sensor in HASS
-- **timing_point_code:** *(int, e.g. 10155690)* - A code created by the transport to identify the stop.
-
-**Either one of these are required for the sensor to function!**
-
-**Optional parameters:**
-- **show_future_departures:** *(int, max value is 50)* - The sensor always creates one sensor in Hass, this property can be configured with a value of 2-5. If this is configured, the component creates the configured number of sensors in HASS. These sensors contain future departments together with their delay if applicable.
-- **line_filter** *(int, comma separated)* - You might bump into the fact that there are multiple lines that use the same stop, with this property you can filter all passes with the line number that you want.
 
 
 ### To find the stop_code (`stopareacode`) refer to the JSON response of: [v0.ovapi.nl/stopareacode](http://v0.ovapi.nl/stopareacode)
@@ -45,14 +69,46 @@ I've used the building JSON parser from Firefox, the search input is on the top 
 - Look for the key 'DestinationName50', this should hold the destination that you want. If this is the wrong way, then you should close the JSON output and open the other route code key.
 - Note the route_code and the stop_code and place these values in the sensor configuration.
 
+</details>
 
-### To find the timing_point_code (TimingPointCode) refer to the JSON response of: [v0.ovapi.nl/line](http://v0.ovapi.nl/line)
+<details>
+
+<summary>2. Using a Timing_Point_Code</summary>
+
+**Using a Timing_Point_Code:** *(Please refer to the instructions below)*
+- **platform: ovapi** *(required)* - The name of the sensor component.
+- **name: line_6** - The name of the sensor in HASS
+- **timing_point_code:** *(int, e.g. 10155690)* - A code created by the transport to identify the stop.
+
+### Easy way to get a TimingPointCode is:
+
+    - Go to https://www.openstreetmap.org/
+    - Find your bus stop on the map
+    - Switch to the Transport Layer
+    - Turn on 'Map data'
+    - Click the node
+    - Look for the ref:IFOPT and see if the TimingPointCode is listed there
+
+### Find the timing_point_code using OVapi 
 I've used the building JSON parser from Firefox, the search input is on the top right.
 
+- Go to [v0.ovapi.nl/line](http://v0.ovapi.nl/line)
 - Search in the response with a keyword of the destination of the line, eg: Leyenburg
 - The result of this should be a list of line identifiers, expand them and look for the one that has the correct value in `DestinationName50`. Copy the line identifier, e.g. HTM_6_2.
 - Next, open the url: [http://v0.ovapi.nl/line/HTM_6_2](http://v0.ovapi.nl/line/HTM_6_2), this page lists all stops of the line. Search for your stop name, e.g. kastelenring.
 - Find the TimingPointCode and use this as value in the sensor configuration.
+
+</details>
+
+**Either one of these are required for the sensor to function!**
+
+**Optional parameters:**
+- **show_future_departures:** *(int, max value is 50)* - The sensor always creates one sensor in Hass, this property can be configured with a value of 2-5. If this is configured, the component creates the configured number of sensors in HASS. These sensors contain future departments together with their delay if applicable.
+- **line_filter** *(int, comma separated)* - You might bump into the fact that there are multiple lines that use the same stop, with this property you can filter all passes with the line number that you want.
+
+<details>
+
+<summary>Sensor configuration examples</summary>
 
 ### Sensor configuration examples
 Create 1 sensor to show the next upcoming departure of a particular line
@@ -90,6 +146,11 @@ sensor:
     show_future_departures: 4
 ```
 
+</details>
+
+<details>
+
+<summary>Lovelace card example:</summary>
 
 ### Lovelace card example:
 ```yaml
@@ -137,6 +198,8 @@ elements:
       left: 70%
 ```
 
+</details>
+
 ### Note and credits
 - [Petro](https://community.home-assistant.io/u/petro/summary) - For extensive help at coding the sensor templates.
 - [Robban](https://github.com/Kane610) - A lot of basic help with the Python code.
@@ -146,12 +209,4 @@ elements:
 - [IIIdefconIII](https://github.com/IIIdefconIII/) - Some minor contributions to add the custom updater and updating the readme.
 - [Paul-dH](https://github.com/Paul-dH/Home-Assisant-Sensor-OvApi) - For the initial development of the sensor and the documentation.
 
-### Custom updater:
-```yaml
-custom_updater:
-  track:
-    - components
-  component_urls:
-    - https://raw.githubusercontent.com/jlagerweij/Home-Assisant-Sensor-OvApi/main/custom_components.json
-```
 
