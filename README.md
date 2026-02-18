@@ -152,6 +152,6 @@ custom_updater:
   track:
     - components
   component_urls:
-    - https://raw.githubusercontent.com/jlagerweij/Home-Assisant-Sensor-OvApi/master/custom_components.json
+    - https://raw.githubusercontent.com/jlagerweij/Home-Assisant-Sensor-OvApi/main/custom_components.json
 ```
 
