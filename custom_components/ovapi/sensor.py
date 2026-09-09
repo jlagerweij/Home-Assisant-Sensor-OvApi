@@ -9,7 +9,6 @@ import voluptuous as vol
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.const import (CONF_NAME, STATE_UNKNOWN)
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers.entity import Entity
 from homeassistant.util import Throttle
@@ -46,6 +45,7 @@ ATTR_LINE_NAME = 'line_name'
 ATTR_STOP_NAME = 'stop_name'
 ATTR_JOURNEY_NUMBER = 'journey_number'
 ATTR_LINE_PLANNING_NUMBER = "line_planning_number"
+ATTR_TRIP_STOP_STATUS = "trip_stop_status"
 ATTR_DEPARTURE = 'departure'
 ATTR_DELAY = 'delay'
 ATTR_DEPARTURES = 'departures'
@@ -113,6 +113,7 @@ class OvApiSensor(Entity):
         self._departure = None
         self._delay = None
         self._departures = None
+        self._trip_stop_status = None
         self._state = None
 
     @property
@@ -153,6 +154,10 @@ class OvApiSensor(Entity):
         return self._line_planning_number
 
     @property
+    def trip_stop_status(self):
+        return self._trip_stop_status
+
+    @property
     def departure(self):
         return self._departure
 
@@ -190,6 +195,7 @@ class OvApiSensor(Entity):
                 ATTR_STOP_NAME: self._stop_name,
                 ATTR_JOURNEY_NUMBER: self._journey_number,
                 ATTR_LINE_PLANNING_NUMBER: self._line_planning_number,
+                ATTR_TRIP_STOP_STATUS: self._trip_stop_status,
                 ATTR_DEPARTURE: self._departure,
                 ATTR_DELAY: self._delay,
                 ATTR_DEPARTURES: self._departures,
@@ -213,6 +219,7 @@ class OvApiSensor(Entity):
                 ATTR_LINE_PLANNING_NUMBER: self._line_planning_number,
                 ATTR_DEPARTURE: self._departure,
                 ATTR_DELAY: self._delay,
+                ATTR_TRIP_STOP_STATUS: self._trip_stop_status,
                 ATTR_UPDATE_CYCLE: str(MIN_TIME_BETWEEN_UPDATES.seconds) + ' seconds',
                 ATTR_CREDITS: CONF_CREDITS
             }
@@ -253,6 +260,7 @@ class OvApiSensor(Entity):
                     "TargetDepartureTime": target_departure_time.time(),
                     "TargetDepartureDateTime": target_departure_time,
                     "ExpectedArrivalTime": expected_arrival_time.time(),
+                    "trip_stop_status": stop.get('TripStopStatus', STATE_UNKNOWN),
                     "Delay": delay
                 }
 
@@ -279,6 +287,7 @@ class OvApiSensor(Entity):
                 self._stop_name = stops_list[self._sensor_number]["stop_name"]
                 self._journey_number = stops_list[self._sensor_number]["journey_number"]
                 self._line_planning_number = stops_list[self._sensor_number]["line_planning_number"]
+                self._trip_stop_status = stops_list[self._sensor_number]["trip_stop_status"]
 
                 self._departure = stops_list[self._sensor_number]["TargetDepartureTime"].strftime('%H:%M')
                 self._delay = str(stops_list[self._sensor_number]["Delay"])
